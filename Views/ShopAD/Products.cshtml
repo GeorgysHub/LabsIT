@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ShopMVC.Models.ProductVM>
+
+@{
+    ViewBag.Title = "Products";
+}
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+<link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+<h2>Товары</h2>
+
+
+<p>
+    @Html.ActionLink("Добавить товар", "AddProduct","", new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Название
+        </th>
+        <th>
+            Цена
+        </th>
+        <th>
+            Наличие
+        </th>
+        <th style="max-width:150px">
+            Описание
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var product in ViewBag.onePageOfProducts)
+{
+  <tr>
+     <td>
+       @product.Name
+     </td>
+
+     <td>
+        @product.Prise
+     </td>
+
+     <td>
+        @product.Kol
+     </td>
+
+     <td style="max-width:150px">
+        @product.Opis
+     </td>
+
+     <td>
+         @Html.ActionLink("Изменить товар", "EditProduct", new { id = product.Id },new { @class="btn btn-info"}) |
+         @Html.ActionLink("Удалить товар", "DeleteProduct", new { id = product.Id }, new { @class = "btn btn-danger" })
+     </td>
+  </tr>          
+}
+
+</table>
+
+@Html.PagedListPager((IPagedList)ViewBag.onePageOfProducts,page =>Url.Action("Products",new { page,catID = 0}))
+
+@Html.Action("ZakazAD","ShopAD")
